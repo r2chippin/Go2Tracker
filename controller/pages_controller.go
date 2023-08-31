@@ -17,8 +17,8 @@ func handleFavicon(c *gin.Context) {
 	c.File("resource/statics/favicon.ico")
 }
 
-// HandleMainPage Handle main page
-func HandleMainPage(r *gin.Engine) {
+// RouteMainPage  Handle main page
+func RouteMainPage(r *gin.Engine) {
 	r.GET("/", handleIndex)
 	r.GET("/favicon.ico", handleFavicon)
 }
