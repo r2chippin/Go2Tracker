@@ -7,6 +7,7 @@ import (
 )
 
 func main() {
+
 	// New a router
 	router := gin.Default()
 
@@ -22,4 +23,6 @@ func main() {
 		fmt.Println("Error:", err.Error())
 		return
 	}
+
+	//Test only
 }
