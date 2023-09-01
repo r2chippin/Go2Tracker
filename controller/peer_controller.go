@@ -4,10 +4,11 @@ import (
 	"Go2Tracker/model"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"strconv"
 )
 
-// Return index
+// Handle with new peer
 func handlePeerAnnounce(c *gin.Context) {
 	p := model.Peer{}
 
@@ -19,10 +20,29 @@ func handlePeerAnnounce(c *gin.Context) {
 	p.Downloaded, _ = strconv.ParseInt(c.Query("downloaded"), 10, 64)
 	p.Event = c.Query("event")
 
-	fmt.Printf("info_hash: %s peer_id: %s; ip: %s;", p.InfoHash, p.PeerID, p.IP)
+	fmt.Println(p)
+
+	interval := 720
+	model.LockPeerLists()
+
+	pl := model.SearchPeerList(p)
+	if pl.InfoHash == "noMatch" {
+		model.AddPeerList(p)
+	} else {
+
+	}
+	model.UnlockPeerLists()
+	pld := model.ConvertPeersToDictList(pl)
+
+	response := gin.H{}
+	response["interval"] = interval
+	response["peers"] = pld
+
+	c.JSON(http.StatusOK, response)
 }
 
 // RouteAnnounce Handle
-func RouteAnnounce(r *gin.Engine) {
-	r.GET("/announce", handlePeerAnnounce)
+func RouteAnnounce(e *gin.Engine) {
+	model.InitPeerLists()
+	e.GET("/announce", handlePeerAnnounce)
 }

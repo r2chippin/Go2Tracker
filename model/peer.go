@@ -1,5 +1,49 @@
 package model
 
+var (
+	Peer0 = Peer{
+		InfoHash:   "hash0",
+		PeerID:     "id0",
+		IP:         "127.0.0.0",
+		Port:       8080,
+		Uploaded:   0,
+		Downloaded: 0,
+		Left:       99,
+		Event:      "Downloading",
+	}
+
+	Peer1 = Peer{
+		InfoHash:   "hash1",
+		PeerID:     "id1",
+		IP:         "127.0.0.1",
+		Port:       8081,
+		Uploaded:   0,
+		Downloaded: 0,
+		Left:       99,
+		Event:      "Downloading",
+	}
+	Peer2 = Peer{
+		InfoHash:   "hash1",
+		PeerID:     "id2",
+		IP:         "127.0.0.2",
+		Port:       8082,
+		Uploaded:   0,
+		Downloaded: 0,
+		Left:       99,
+		Event:      "Downloading",
+	}
+
+	Pl0 = PeerList{
+		Peers:    []Peer{Peer0},
+		InfoHash: "hash0",
+	}
+
+	Pl1 = PeerList{
+		Peers:    []Peer{Peer1, Peer2},
+		InfoHash: "hash1",
+	}
+)
+
 type Peer struct {
 	InfoHash   string `json:"info_hash"`
 	PeerID     string `json:"peer_id"`
@@ -12,7 +56,8 @@ type Peer struct {
 }
 
 type PeerList struct {
-	Peers []Peer `json:"peers"`
+	Peers    []Peer `json:"peers"`
+	InfoHash string `json:"info_hash"`
 }
 
 /*
