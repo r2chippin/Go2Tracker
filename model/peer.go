@@ -33,12 +33,12 @@ var (
 		Event:      "Downloading",
 	}
 
-	Pl0 = PeerList{
+	Pl0 = Peers{
 		Peers:    []Peer{Peer0},
 		InfoHash: "hash0",
 	}
 
-	Pl1 = PeerList{
+	Pl1 = Peers{
 		Peers:    []Peer{Peer1, Peer2},
 		InfoHash: "hash1",
 	}
@@ -55,17 +55,12 @@ type Peer struct {
 	Event      string `json:"event"`
 }
 
-type PeerList struct {
+type Peers struct {
 	Peers    []Peer `json:"peers"`
 	InfoHash string `json:"info_hash"`
 }
 
-/*
-type Peers struct {
-}
-*/
-
-func ConvertPeersToDictList(pl PeerList) []map[string]interface{} {
+func ConvertPeersToDictList(pl Peers) []map[string]interface{} {
 	dictList := make([]map[string]interface{}, len(pl.Peers))
 
 	for i, peer := range pl.Peers {

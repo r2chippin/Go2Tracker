@@ -1,12 +1,11 @@
 package model
 
 import (
-	"fmt"
 	"sync"
 )
 
 var (
-	pls     []PeerList
+	pls     []Peers
 	plsLock sync.Mutex
 )
 
@@ -17,12 +16,12 @@ func InitPeerLists() {
 	//fmt.Print(pls)
 }
 
-func SearchPeerList(p Peer) PeerList {
+func SearchPeerList(p Peer) Peers {
 	searchTarget := p.InfoHash
-	re := PeerList{InfoHash: "noMatch"}
+	re := Peers{InfoHash: "noMatch"}
 	for i, pl := range pls {
 		//fmt.Print(" [" + pl.InfoHash + " " + searchTarget + "]")
-		fmt.Println(pl.Peers)
+		//fmt.Println(pl.Peers)
 		if pl.InfoHash == searchTarget {
 			re = pl
 			flag := true
@@ -35,13 +34,13 @@ func SearchPeerList(p Peer) PeerList {
 				pls[i].Peers = append(pls[i].Peers, p)
 			}
 		}
-		fmt.Println(pl.Peers)
+		//fmt.Println(pl.Peers)
 	}
 	return re
 }
 
 func AddPeerList(p Peer) {
-	pl := PeerList{Peers: []Peer{p}, InfoHash: p.InfoHash}
+	pl := Peers{Peers: []Peer{p}, InfoHash: p.InfoHash}
 	pls = append(pls, pl)
 }
 
