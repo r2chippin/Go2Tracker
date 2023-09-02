@@ -24,12 +24,11 @@ func handlePeerAnnounce(c *gin.Context) {
 
 	interval := 720
 	model.LockPeerLists()
-
 	pl := model.SearchPeerList(p)
 	if pl.InfoHash == "noMatch" {
 		model.AddPeerList(p)
 	} else {
-
+		model.AddPeer(p)
 	}
 	model.UnlockPeerLists()
 	pld := model.ConvertPeersToDictList(pl)
