@@ -69,6 +69,8 @@ func handlePeerAnnounce(c *gin.Context) {
 	} else {
 		model.AddPeer(p)
 	}
+	// TODO UpdatePeer
+
 	model.UnlockPeerLists()
 	pld := model.ConvertPeersToDictList(pl)
 
