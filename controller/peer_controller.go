@@ -4,9 +4,31 @@ import (
 	"Go2Tracker/model"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"net"
 	"net/http"
 	"strconv"
 )
+
+func errorSensor(p model.Peer) (string, bool) {
+	resp := ""
+	res := false
+
+	ip := net.ParseIP(p.IP)
+	if ip == nil {
+		resp = "IP is nil"
+	}
+	if ip.To4() == nil {
+		resp = "IP is not a IPv4 address"
+	}
+	if !ip.IsLoopback() && !ip.IsMulticast() && !ip.IsPrivate() {
+		resp = "IP is a unusable IPv4 address"
+	}
+
+	if resp != "" {
+		res = true
+	}
+	return resp, res
+}
 
 // Handle with new peer
 func handlePeerAnnounce(c *gin.Context) {
