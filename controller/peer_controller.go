@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func errorSensor(p model.Peer) (bool, error) {
+func errorSensor(p model.Peer) (bool, string) {
 	resp := ""
 	res := false
 
@@ -21,7 +21,7 @@ func errorSensor(p model.Peer) (bool, error) {
 	if ip.To4() == nil {
 		resp += "IP is not a IPv4 address"
 	}
-	if !ip.IsLoopback() && !ip.IsMulticast() && !ip.IsPrivate() {
+	if ip.IsLoopback() || ip.IsMulticast() || ip.IsPrivate() {
 		resp += "IP is a unusable IPv4 address"
 	}
 
@@ -34,8 +34,7 @@ func errorSensor(p model.Peer) (bool, error) {
 	if resp != "" {
 		res = true
 	}
-	err := fmt.Errorf(resp)
-	return res, err
+	return res, resp
 }
 
 // Handle with new peer
@@ -56,10 +55,9 @@ func handlePeerAnnounce(c *gin.Context) {
 
 	errT, errP := errorSensor(p)
 	if errT {
-		err := c.AbortWithError(http.StatusBadRequest, errP)
-		if err != nil {
-			fmt.Println("response err error")
-		}
+		println(errP)
+		response["error"] = errP
+		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
