@@ -6,11 +6,12 @@ This project aims to create a simple bittorrent tracker application.
 
 ## Done
 
-Basic nothing
+Basic main page response
+Basic announce func
 
 ## Doing
 
-Basic everything
+fix announce logic
 
 ## Tech Stack
 
