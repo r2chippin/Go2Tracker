@@ -13,15 +13,22 @@ func errorSensor(p model.Peer) (string, bool) {
 	resp := ""
 	res := false
 
+	// detect IP error
 	ip := net.ParseIP(p.IP)
 	if ip == nil {
-		resp = "IP is nil"
+		resp += "IP is nil"
 	}
 	if ip.To4() == nil {
-		resp = "IP is not a IPv4 address"
+		resp += "IP is not a IPv4 address"
 	}
 	if !ip.IsLoopback() && !ip.IsMulticast() && !ip.IsPrivate() {
-		resp = "IP is a unusable IPv4 address"
+		resp += "IP is a unusable IPv4 address"
+	}
+
+	// detect PORT error
+	port := p.Port
+	if port <= 0 || port >= 65535 {
+		resp += "Port out of range"
 	}
 
 	if resp != "" {
