@@ -9,7 +9,7 @@ import (
 	"strconv"
 )
 
-func errorSensor(p model.Peer) (string, bool) {
+func errorSensor(p model.Peer) (bool, error) {
 	resp := ""
 	res := false
 
@@ -34,11 +34,14 @@ func errorSensor(p model.Peer) (string, bool) {
 	if resp != "" {
 		res = true
 	}
-	return resp, res
+	err := fmt.Errorf(resp)
+	return res, err
 }
 
 // Handle with new peer
 func handlePeerAnnounce(c *gin.Context) {
+	response := gin.H{}
+
 	p := model.Peer{}
 
 	p.InfoHash = c.Query("info_hash")
@@ -51,6 +54,15 @@ func handlePeerAnnounce(c *gin.Context) {
 
 	fmt.Println(p)
 
+	errT, errP := errorSensor(p)
+	if errT {
+		err := c.AbortWithError(http.StatusBadRequest, errP)
+		if err != nil {
+			fmt.Println("response err error")
+		}
+		return
+	}
+
 	interval := 720
 	model.LockPeerLists()
 	pl := model.SearchPeerList(p)
@@ -62,7 +74,6 @@ func handlePeerAnnounce(c *gin.Context) {
 	model.UnlockPeerLists()
 	pld := model.ConvertPeersToDictList(pl)
 
-	response := gin.H{}
 	response["interval"] = interval
 	response["peers"] = pld
 
