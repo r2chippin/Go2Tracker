@@ -1,6 +1,6 @@
 module Go2Tracker
 
-go 1.21
+go 1.20
 
 require (
 	github.com/bytedance/sonic v1.10.0 // indirect
