@@ -49,6 +49,7 @@ func handlePeerAnnounce(c *gin.Context) {
 	p.Port, _ = strconv.Atoi(c.Query("port"))
 	p.Uploaded, _ = strconv.ParseInt(c.Query("uploaded"), 10, 64)
 	p.Downloaded, _ = strconv.ParseInt(c.Query("downloaded"), 10, 64)
+	p.Left, _ = strconv.ParseInt(c.Query("left"), 10, 64)
 	p.Event = c.Query("event")
 
 	fmt.Println(p)
