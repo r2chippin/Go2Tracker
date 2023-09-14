@@ -15,9 +15,6 @@ func errorSensor(p model.Peer) (bool, string) {
 
 	// detect IP error
 	ip := net.ParseIP(p.IP)
-	if ip == nil {
-		resp += "IP is nil"
-	}
 	if ip.To4() == nil {
 		resp += "IP is not a IPv4 address"
 	}
