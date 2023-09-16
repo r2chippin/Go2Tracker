@@ -52,6 +52,18 @@ func AddPeer(p Peer) {
 	}
 }
 
+func UpdatePeer(p Peer) {
+	for i, pl := range pls {
+		if pl.InfoHash == p.InfoHash {
+			for j, pEX := range pls[i].Peers {
+				if pEX.PeerID == p.PeerID {
+					pls[i].Peers[j] = p
+				}
+			}
+		}
+	}
+}
+
 // LockPeerLists Lock
 func LockPeerLists() {
 	plsLock.Lock()
