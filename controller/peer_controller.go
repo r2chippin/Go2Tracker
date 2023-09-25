@@ -10,28 +10,28 @@ import (
 )
 
 func errorSensor(p model.Peer) (bool, string) {
-	resp := ""
+	resErr := ""
 	res := false
 
 	// detect IP error
 	ip := net.ParseIP(p.IP)
 	if ip.To4() == nil {
-		resp += "IP is not a IPv4 address"
+		resErr += "IP is not a IPv4 address"
 	}
 	if ip.IsLoopback() || ip.IsMulticast() || ip.IsPrivate() {
-		resp += "IP is a unusable IPv4 address"
+		resErr += "IP is a unusable IPv4 address"
 	}
 
 	// detect PORT error
 	port := p.Port
 	if port <= 0 || port >= 65535 {
-		resp += "Port out of range"
+		resErr += "Port out of range"
 	}
 
-	if resp != "" {
+	if resErr != "" {
 		res = true
 	}
-	return res, resp
+	return res, resErr
 }
 
 // Handle with new peer
@@ -61,13 +61,12 @@ func handlePeerAnnounce(c *gin.Context) {
 
 	interval := 720
 	model.LockPeerLists()
-	pl := model.SearchPeerList(p)
+	_, _, pl := model.SearchPeerList(p)
 	if pl.InfoHash == "noMatch" {
 		model.AddPeerList(p)
 	} else {
-		model.AddPeer(p)
+		model.UpdatePeers(p)
 	}
-	// TODO UpdatePeer
 
 	model.UnlockPeerLists()
 	pld := model.ConvertPeersToDictList(pl)

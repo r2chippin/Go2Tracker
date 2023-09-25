@@ -16,18 +16,31 @@ func InitPeerLists() {
 	//fmt.Print(pls)
 }
 
-func SearchPeerList(p Peer) Peers {
-	searchTarget := p.InfoHash
-	re := Peers{InfoHash: "noMatch"}
-	for _, pl := range pls {
-		//fmt.Print(" [" + pl.InfoHash + " " + searchTarget + "]")
-		//fmt.Println(pl.Peers)
-		if pl.InfoHash == searchTarget {
+func SearchPeerList(p Peer) (int, int, Peers) {
+	targetInfoHash := p.InfoHash
+	targetPeerID := p.PeerID
+
+	var x, y int
+	var re Peers
+
+	for i, pl := range pls {
+		if pl.InfoHash == targetInfoHash {
+			x = i
 			re = pl
+			// do not return request itself
+			for j, pEX := range re.Peers {
+				if pEX.PeerID == targetPeerID {
+					y = j
+					copy(re.Peers[j:], re.Peers[j+1:])
+					re.Peers = re.Peers[:len(re.Peers)-1]
+					break
+				}
+			}
+			break
 		}
-		//fmt.Println(pl.Peers)
 	}
-	return re
+
+	return x, y, re
 }
 
 func AddPeerList(p Peer) {
@@ -35,7 +48,7 @@ func AddPeerList(p Peer) {
 	pls = append(pls, pl)
 }
 
-func AddPeer(p Peer) {
+func UpdatePeers(p Peer) {
 	for i, pl := range pls {
 		if pl.InfoHash == p.InfoHash {
 			flag := true
@@ -47,18 +60,6 @@ func AddPeer(p Peer) {
 			}
 			if flag {
 				pls[i].Peers = append(pls[i].Peers, p)
-			}
-		}
-	}
-}
-
-func UpdatePeer(p Peer) {
-	for i, pl := range pls {
-		if pl.InfoHash == p.InfoHash {
-			for j, pEX := range pls[i].Peers {
-				if pEX.PeerID == p.PeerID {
-					pls[i].Peers[j] = p
-				}
 			}
 		}
 	}
