@@ -4,6 +4,8 @@ Welcome to the Go2Tracker repository!
 
 This project aims to create a simple bittorrent tracker application.
 
+Now it can run as a simple bittorrent tracker with full core function。 
+
 ## Done
 
 Basic main page response
