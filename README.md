@@ -10,9 +10,15 @@ Basic main page response
 
 Basic announce func
 
+Encoded bencode response
+
 ## Doing
 
-fix announce logic
+Fix announce logic
+
+Storage Peer
+
+Performance improvement
 
 ## Tech Stack
 
