@@ -53,7 +53,7 @@ func UpdatePeers(p Peer) {
 		if pl.InfoHash == p.InfoHash {
 			flag := true
 			for j, pEX := range pls[i].Peers {
-				if pEX.PeerID == p.PeerID {
+				if p.PeerID == pEX.PeerID {
 					pls[i].Peers[j] = p
 					flag = false
 				}

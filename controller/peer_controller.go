@@ -2,8 +2,10 @@ package controller
 
 import (
 	"Go2Tracker/model"
+	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/jackpal/bencode-go"
 	"net"
 	"net/http"
 	"strconv"
@@ -74,7 +76,14 @@ func handlePeerAnnounce(c *gin.Context) {
 	response["interval"] = interval
 	response["peers"] = pld
 
-	c.JSON(http.StatusOK, response)
+	// encode response to bencode
+	var buf bytes.Buffer
+	err := bencode.Marshal(&buf, response)
+	if err != nil {
+		return
+	}
+
+	c.Data(http.StatusOK, "application/octet-stream", buf.Bytes())
 }
 
 // RouteAnnounce Handle
