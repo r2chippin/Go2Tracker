@@ -26,7 +26,7 @@ func main() {
 	// Handel announce
 	controller.RouteAnnounce(router)
 
-	// Start router
+	// Start server
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: router,

@@ -6,7 +6,9 @@ This project aims to create a simple bittorrent tracker application.
 
 Now it can run as a simple bittorrent tracker with full core function。 
 
-## Done
+## Done 
+
+Single thread
 
 Basic main page response
 
@@ -15,6 +17,8 @@ Basic announce func
 Encoded bencode response
 
 ## Doing
+
+Use Goroutine
 
 Fix announce logic
 
