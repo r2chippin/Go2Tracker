@@ -1,6 +1,6 @@
-# r2React
+# Tr2acker
 
-Welcome to the Go2Tracker repository! 
+Welcome to the Tr2acker repository! 
 
 This project aims to create a simple bittorrent tracker application.
 
