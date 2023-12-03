@@ -49,7 +49,7 @@ go mod download
 
 ### Start the Application
 
-Start the Go2Tracker application using the following command:
+Start the Tr2acker application using the following command:
 
 ```shell
 go run main.go
